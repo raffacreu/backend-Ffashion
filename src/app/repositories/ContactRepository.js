@@ -18,6 +18,7 @@ let contacts = [
 ]
 
 class ContactRepository {
+
     findAll () {
         return new Promise((resolve) => resolve(contacts))
     }
@@ -34,6 +35,12 @@ class ContactRepository {
         ))
     }
 
+    findByName(name) {
+        return new Promise((resolve) => resolve(
+            contacts.find((contacts) => contacts.name == name)
+        ))
+    }
+
     create({ 
         name, email, phone, category_id 
     }) {
@@ -47,6 +54,26 @@ class ContactRepository {
             }
             contacts.push(newContact)
             resolve(newContact)
+        })
+    }
+
+    update(id, { 
+        name, email, phone, category_id 
+    }) {
+        return new Promise((resolve) => {
+            const updateContact = {
+                id,
+                name,
+                email,
+                phone,
+                category_id,
+            }
+            
+            contacts = contacts.map((contact) => (
+                contact.id == id ? updateContact : contact
+            ))
+
+            resolve(updateContact)
         })
     }
 
